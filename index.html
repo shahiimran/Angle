@@ -588,11 +588,11 @@ textarea::placeholder{
 /*
    IMPORTANT:
 
-   এখানে নতুন BotFather token এবং নিজের
-   Telegram Chat ID বসাতে হবে।
+   Put your BotFather token and your own
+   Telegram Chat ID here.
 
-   Public website-এ এগুলো রাখা নিরাপদ নয়।
-   Production version-এ backend ব্যবহার করো।
+   Keeping these public on a website is NOT safe.
+   In production, use a backend.
 */
 
 const BOT_TOKEN = "8386266718:AAFGVIPaWKc20dzJT6nV7vlsklwxsV-dOlQ";
@@ -686,8 +686,8 @@ function startMusic(){
     .catch(()=>{
 
       /*
-        কিছু browser autoplay block করলে
-        user music button চাপতে পারবে।
+        If some browser blocks autoplay,
+        the user can press the music button.
       */
 
       musicButton.innerText = "▶";
@@ -810,17 +810,12 @@ function selectedOptions(section){
 
 async function telegramSend(message){
 
-  if(
-    BOT_TOKEN === "8386266718:AAFGVIPaWKc20dzJT6nV7vlsklwxsV-dOlQ" ||
-    CHAT_ID === "8152695498"
-  ){
-
+  // Only fail if values are truly empty
+  if(!BOT_TOKEN || !CHAT_ID){
     throw new Error(
-      "Telegram Bot Token and Chat ID are not set."
+      "Telegram Bot Token or Chat ID is missing."
     );
-
   }
-
 
   const response =
     await fetch(
@@ -897,7 +892,7 @@ async function sendAccept(){
 
 
   let message =
-`🌹 ANGLE— PROPOSAL RESPONSE
+`🌹 ANGLE — PROPOSAL RESPONSE
 
 ❤️ Decision: ACCEPT
 
