@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --pink:#ff477e;
+  --pink2:#ff759b;
+  --dark:#080309;
+  --card:rgba(255,255,255,.075);
+  --border:rgba(255,255,255,.14);
+}
+
+body{
+  min-height:100vh;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  color:white;
+  background:
+    radial-gradient(circle at 50% -10%,#711d42 0%,transparent 42%),
+    radial-gradient(circle at 0% 100%,#3b1029 0%,transparent 35%),
+    linear-gradient(145deg,#090309,#170711,#080309);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+  overflow-x:hidden;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:rgba(255,60,120,.12);
+  filter:blur(70px);
+  top:15%;
+  left:50%;
+  transform:translateX(-50%);
+  pointer-events:none;
+}
+
+.petal{
+  position:fixed;
+  top:-40px;
+  z-index:0;
+  pointer-events:none;
+  opacity:.75;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  0%{
+    transform:translateY(-50px) rotate(0deg);
+  }
+  100%{
+    transform:translateY(110vh) rotate(360deg);
+  }
+}
+
+.app{
+  width:100%;
+  max-width:500px;
+  position:relative;
+  z-index:2;
+}
+
+.container{
+  width:100%;
+  padding:28px 20px;
+  border:1px solid var(--border);
+  border-radius:30px;
+  background:rgba(15,5,12,.68);
+  backdrop-filter:blur(22px);
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.6),
+    inset 0 1px rgba(255,255,255,.08);
+  text-align:center;
+}
+
+.rose{
+  font-size:72px;
+  filter:drop-shadow(0 0 20px rgba(255,60,120,.55));
+  animation:roseFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes roseFloat{
+  0%,100%{
+    transform:translateY(0) rotate(-2deg);
+  }
+  50%{
+    transform:translateY(-10px) rotate(2deg);
+  }
+}
+
+h1{
+  font-size:34px;
+  margin:8px 0 12px;
+}
+
+.subtitle{
+  color:#ffdce7;
+  line-height:1.75;
+  font-size:15px;
+}
+
+.card{
+  margin-top:22px;
+  padding:18px;
+  border-radius:22px;
+  background:var(--card);
+  border:1px solid var(--border);
+  text-align:left;
+}
+
+.question{
+  text-align:center;
+  font-size:19px;
+  line-height:1.6;
+  margin-bottom:17px;
+}
+
+.buttons{
+  display:flex;
+  gap:12px;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:700;
+  border-radius:15px;
+  padding:14px;
+  transition:.2s;
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+.accept{
+  flex:1;
+  color:white;
+  background:linear-gradient(135deg,#ff477e,#ff2f68);
+  box-shadow:0 8px 25px rgba(255,55,110,.25);
+}
+
+.decline{
+  flex:1;
+  color:white;
+  background:#29151f;
+  border:1px solid #663649;
+}
+
+.option{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:13px;
+  margin:9px 0;
+  border-radius:14px;
+  background:rgba(255,255,255,.055);
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:.2s;
+  line-height:1.45;
+}
+
+.option:has(input:checked){
+  background:rgba(255,71,126,.14);
+  border-color:rgba(255,71,126,.45);
+}
+
+.option input{
+  width:19px;
+  height:19px;
+  accent-color:var(--pink);
+  flex-shrink:0;
+}
+
+textarea{
+  width:100%;
+  min-height:110px;
+  resize:vertical;
+  margin-top:13px;
+  padding:14px;
+  border-radius:15px;
+  border:1px solid var(--border);
+  outline:none;
+  background:rgba(0,0,0,.28);
+  color:white;
+  font-size:15px;
+  font-family:inherit;
+}
+
+textarea:focus{
+  border-color:rgba(255,71,126,.6);
+}
+
+textarea::placeholder{
+  color:#bdaeb5;
+}
+
+.send{
+  width:100%;
+  margin-top:14px;
+  color:white;
+  background:linear-gradient(135deg,#ff477e,#ff2d69);
+}
+
+.back{
+  width:100%;
+  margin-top:10px;
+  color:white;
+  background:#21121a;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* MUSIC */
+
+.musicBox{
+  margin-top:18px;
+  padding:15px;
+  border-radius:18px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);
+}
+
+.musicTitle{
+  font-size:14px;
+  color:#ffd6e2;
+  margin-bottom:11px;
+}
+
+.musicControls{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.musicPlay{
+  width:46px;
+  height:46px;
+  padding:0;
+  border-radius:50%;
+  background:var(--pink);
+  color:white;
+}
+
+.volume{
+  flex:1;
+  accent-color:var(--pink);
+}
+
+.time{
+  font-size:12px;
+  color:#c9b9c0;
+  min-width:45px;
+  text-align:right;
+}
+
+/* SUCCESS */
+
+.successText{
+  color:#ffd6e3;
+  line-height:1.7;
+  margin-top:8px;
+}
+
+.status{
+  display:none;
+  margin-top:14px;
+  padding:12px;
+  border-radius:13px;
+  background:rgba(255,255,255,.07);
+  color:#ffe4ec;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* FACE BOX */
+
+.faceBox{
+  margin-top:10px;
+}
+
+.footer{
+  margin-top:18px;
+  color:#9f8992;
+  font-size:11px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Animated petals -->
+<div class="petal" style="left:4%;font-size:20px;animation-duration:8s;">🌹</div>
+<div class="petal" style="left:17%;font-size:16px;animation-duration:11s;animation-delay:2s;">🌸</div>
+<div class="petal" style="left:35%;font-size:20px;animation-duration:9s;animation-delay:1s;">🌹</div>
+<div class="petal" style="left:58%;font-size:17px;animation-duration:12s;animation-delay:3s;">🌸</div>
+<div class="petal" style="left:77%;font-size:21px;animation-duration:10s;">🌹</div>
+<div class="petal" style="left:91%;font-size:17px;animation-duration:13s;animation-delay:4s;">🌸</div>
+
+<div class="app">
+<div class="container">
+
+<!-- ================= MAIN ================= -->
+
+<section id="mainPage">
+
+  <div class="rose">🌹</div>
+
+  <h1>Angle</h1>
+
+  <p class="subtitle">
+    I had something to tell you...<br>
+    Something I've kept in my heart for a long time. ❤️
+  </p>
+
+  <div class="card">
+
+    <div class="question">
+      Do you want to start a new story with me? 🌹
+    </div>
+
+    <div class="buttons">
+
+      <button class="accept" onclick="acceptPage()">
+        ❤️ Accept
+      </button>
+
+      <button class="decline" onclick="declinePage()">
+        💔 Decline
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= ACCEPT ================= -->
+
+<section id="acceptPage" class="hidden">
+
+  <div class="rose">❤️</div>
+
+  <h1>You Said YES!</h1>
+
+  <p class="successText">
+    Really? 🥹❤️<br>
+    Then tell me what's in your heart.
+  </p>
+
+  <!-- Music -->
+  <div class="musicBox">
+
+    <div class="musicTitle">
+      🎵 A little song for you
+    </div>
+
+    <div class="musicControls">
+
+      <button
+        id="musicButton"
+        class="musicPlay"
+        onclick="toggleMusic()">
+        ▶
+      </button>
+
+      <input
+        id="volume"
+        class="volume"
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.8"
+        oninput="changeVolume()">
+
+      <div id="time" class="time">
+        0:00
+      </div>
+
+    </div>
+
+    <audio id="audio">
+      <source src="a.mp3" type="audio/mpeg">
+    </audio>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="question">
+      What would you like to say? ❤️
+    </div>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I like you too ❤️">
+      ❤️ I like you too
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I'm very happy 🥰">
+      🥰 I'm very happy
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I liked what you said 🌹">
+      🌹 I liked what you said
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I wanted to say the same thing too 💕">
+      💕 I wanted to say the same thing too
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I'll remember today ✨">
+      ✨ I'll remember today
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="Tell me more 😊">
+      😊 Tell me more
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I want to meet in person ❤️">
+      ❤️ I want to meet in person
+    </label>
+
+    <textarea
+      id="acceptText"
+      placeholder="Anything else you'd like to say in your own words? ❤️"></textarea>
+
+    <button class="send" onclick="sendAccept()">
+      💌 Send My Answer
+    </button>
+
+  </div>
+
+  <div id="acceptStatus" class="status"></div>
+
+  <button class="back" onclick="home()">
+    ← Back
+  </button>
+
+</section>
+
+
+<!-- ================= DECLINE ================= -->
+
+<section id="declinePage" class="hidden">
+
+  <div class="rose">🥺</div>
+
+  <h1>Can I ask you something?</h1>
+
+  <p class="successText">
+    Why didn't you accept? 💔
+  </p>
+
+  <div class="card">
+
+    <label class="option">
+      <input type="checkbox"
+        value="Not my type">
+      😶 Not my type
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I'm still not sure">
+      🤔 I'm still not sure
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I need some time">
+      💭 I need some time
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I only see you as a friend">
+      ❤️ I only see you as a friend
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I'm feeling shy">
+      🙈 I'm feeling shy
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I don't know what to say">
+      😅 I don't know what to say
+    </label>
+
+    <label class="option">
+      <input
+        id="faceCheck"
+        type="checkbox"
+        value="I want to talk in person"
+        onchange="faceToggle()">
+      💬 I want to talk in person
+    </label>
+
+    <div id="faceBox" class="faceBox hidden">
+
+      <textarea
+        id="faceText"
+        placeholder="What do you want to say in person? 💬"></textarea>
+
+    </div>
+
+    <label class="option">
+      <input type="checkbox"
+        value="I want to think again">
+      🤔 I want to think again
+    </label>
+
+    <label class="option">
+      <input type="checkbox"
+        value="Something else">
+      📝 Something else
+    </label>
+
+    <textarea
+      id="declineText"
+      placeholder="If you want, you can write what's in your heart..."></textarea>
+
+    <button class="send" onclick="sendDecline()">
+      📩 Send Answer
+    </button>
+
+  </div>
+
+  <div id="declineStatus" class="status"></div>
+
+  <button class="back" onclick="home()">
+    ← Back
+  </button>
+
+</section>
+
+
+<div class="footer">
+  Made with 🌹
+</div>
+
+</div>
+</div>
+
+
+<script>
+
+/* =========================================
+   TELEGRAM CONFIGURATION
+   ========================================= */
+
+/*
+   IMPORTANT:
+
+   এখানে নতুন BotFather token এবং নিজের
+   Telegram Chat ID বসাতে হবে।
+
+   Public website-এ এগুলো রাখা নিরাপদ নয়।
+   Production version-এ backend ব্যবহার করো।
+*/
+
+const BOT_TOKEN = "8386266718:AAFGVIPaWKc20dzJT6nV7vlsklwxsV-dOlQ";
+const CHAT_ID = "YOUR_CHAT_ID";
+
+
+/* =========================================
+   PAGE
+   ========================================= */
+
+function hidePages(){
+
+  document.getElementById("mainPage")
+    .classList.add("hidden");
+
+  document.getElementById("acceptPage")
+    .classList.add("hidden");
+
+  document.getElementById("declinePage")
+    .classList.add("hidden");
+
+}
+
+
+function acceptPage(){
+
+  hidePages();
+
+  document.getElementById("acceptPage")
+    .classList.remove("hidden");
+
+  startMusic();
+
+}
+
+
+function declinePage(){
+
+  hidePages();
+
+  document.getElementById("declinePage")
+    .classList.remove("hidden");
+
+}
+
+
+function home(){
+
+  stopMusic();
+
+  hidePages();
+
+  document.getElementById("mainPage")
+    .classList.remove("hidden");
+
+}
+
+
+/* =========================================
+   MUSIC
+   ========================================= */
+
+const audio =
+  document.getElementById("audio");
+
+const musicButton =
+  document.getElementById("musicButton");
+
+const volume =
+  document.getElementById("volume");
+
+const time =
+  document.getElementById("time");
+
+
+audio.volume = .8;
+
+
+function startMusic(){
+
+  audio.currentTime = 0;
+
+  audio.volume = .8;
+
+  audio.play()
+    .then(()=>{
+
+      musicButton.innerText = "⏸";
+
+    })
+    .catch(()=>{
+
+      /*
+        কিছু browser autoplay block করলে
+        user music button চাপতে পারবে।
+      */
+
+      musicButton.innerText = "▶";
+
+    });
+
+}
+
+
+function toggleMusic(){
+
+  if(audio.paused){
+
+    audio.play();
+
+    musicButton.innerText = "⏸";
+
+  }else{
+
+    audio.pause();
+
+    musicButton.innerText = "▶";
+
+  }
+
+}
+
+
+function stopMusic(){
+
+  audio.pause();
+
+  audio.currentTime = 0;
+
+  musicButton.innerText = "▶";
+
+}
+
+
+function changeVolume(){
+
+  audio.volume =
+    Number(volume.value);
+
+}
+
+
+audio.addEventListener(
+  "timeupdate",
+  ()=>{
+
+    const seconds =
+      Math.floor(audio.currentTime);
+
+    const minutes =
+      Math.floor(seconds / 60);
+
+    const remaining =
+      seconds % 60;
+
+    time.innerText =
+      minutes + ":" +
+      String(remaining).padStart(2,"0");
+
+  }
+);
+
+
+audio.addEventListener(
+  "ended",
+  ()=>{
+
+    musicButton.innerText = "▶";
+
+  }
+);
+
+
+/* =========================================
+   FACE-TO-FACE BOX
+   ========================================= */
+
+function faceToggle(){
+
+  const checked =
+    document.getElementById("faceCheck")
+      .checked;
+
+  const box =
+    document.getElementById("faceBox");
+
+  box.classList.toggle(
+    "hidden",
+    !checked
+  );
+
+}
+
+
+/* =========================================
+   OPTIONS
+   ========================================= */
+
+function selectedOptions(section){
+
+  return Array.from(
+    section.querySelectorAll(
+      'input[type="checkbox"]:checked'
+    )
+  ).map(
+    checkbox => checkbox.value
+  );
+
+}
+
+
+/* =========================================
+   TELEGRAM
+   ========================================= */
+
+async function telegramSend(message){
+
+  if(
+    BOT_TOKEN === "YOUR_NEW_BOT_TOKEN" ||
+    CHAT_ID === "YOUR_CHAT_ID"
+  ){
+
+    throw new Error(
+      "Telegram Bot Token and Chat ID are not set."
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+
+        body:JSON.stringify({
+
+          chat_id:CHAT_ID,
+
+          text:message
+
+        })
+      }
+    );
+
+
+  const result =
+    await response.json();
+
+
+  if(!result.ok){
+
+    throw new Error(
+      result.description ||
+      "Telegram request failed"
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+/* =========================================
+   ACCEPT SEND
+   ========================================= */
+
+async function sendAccept(){
+
+  const page =
+    document.getElementById("acceptPage");
+
+  const options =
+    selectedOptions(page);
+
+  const text =
+    document
+      .getElementById("acceptText")
+      .value
+      .trim();
+
+
+  if(
+    options.length === 0 &&
+    text.length === 0
+  ){
+
+    alert(
+      "Select an option or write your own message ❤️"
+    );
+
+    return;
+
+  }
+
+
+  let message =
+`🌹 ANGLE— PROPOSAL RESPONSE
+
+❤️ Decision: ACCEPT
+
+Selected options:
+`;
+
+
+  if(options.length){
+
+    options.forEach(
+      (item,index)=>{
+
+        message +=
+          `${index+1}. ${item}\n`;
+
+      }
+    );
+
+  }else{
+
+    message += "None\n";
+
+  }
+
+
+  message +=
+`
+Her message:
+${text || "No custom message"}
+
+Time:
+${new Date().toLocaleString("en-BD")}
+`;
+
+
+  setStatus(
+    "acceptStatus",
+    "📤 Sending..."
+  );
+
+
+  try{
+
+    await telegramSend(message);
+
+    setStatus(
+      "acceptStatus",
+      "✅ Your answer was successfully sent to Telegram ❤️"
+    );
+
+  }catch(error){
+
+    setStatus(
+      "acceptStatus",
+      "❌ Failed to send: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   DECLINE SEND
+   ========================================= */
+
+async function sendDecline(){
+
+  const page =
+    document.getElementById("declinePage");
+
+  const options =
+    selectedOptions(page);
+
+  const custom =
+    document
+      .getElementById("declineText")
+      .value
+      .trim();
+
+  const faceSelected =
+    document
+      .getElementById("faceCheck")
+      .checked;
+
+  const faceText =
+    document
+      .getElementById("faceText")
+      .value
+      .trim();
+
+
+  if(
+    options.length === 0 &&
+    custom.length === 0
+  ){
+
+    alert(
+      "Select an option or write your own message 🥺"
+    );
+
+    return;
+
+  }
+
+
+  let message =
+`🌹 Angle — PROPOSAL RESPONSE
+
+💔 Decision: DECLINE
+
+Selected options:
+`;
+
+
+  if(options.length){
+
+    options.forEach(
+      (item,index)=>{
+
+        message +=
+          `${index+1}. ${item}\n`;
+
+      }
+    );
+
+  }else{
+
+    message += "None\n";
+
+  }
+
+
+  message +=
+`
+Her message:
+${custom || "No custom message"}
+`;
+
+
+  if(faceSelected){
+
+    message +=
+`
+Face-to-face message:
+${faceText || "No message"}
+`;
+
+  }
+
+
+  message +=
+`
+Time:
+${new Date().toLocaleString("en-BD")}
+`;
+
+
+  setStatus(
+    "declineStatus",
+    "📤 Sending..."
+  );
+
+
+  try{
+
+    await telegramSend(message);
+
+    setStatus(
+      "declineStatus",
+      "✅ Your answer was successfully sent to Telegram ❤️"
+    );
+
+  }catch(error){
+
+    setStatus(
+      "declineStatus",
+      "❌ Failed to send: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+function setStatus(id,text){
+
+  const element =
+    document.getElementById(id);
+
+  element.style.display = "block";
+
+  element.innerText = text;
+
+}
+
+</script>
+
+</body>
+</html>
